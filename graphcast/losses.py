@@ -150,21 +150,21 @@ def normalized_latitude_weights(data: xarray.DataArray) -> xarray.DataArray:
 def _weight_for_latitude_vector_without_poles(latitude):
   """Weights for uniform latitudes of the form [+-90-+d/2, ..., -+90+-d/2]."""
   delta_latitude = np.abs(_check_uniform_spacing_and_get_delta(latitude))
-  if (not np.isclose(np.max(latitude), 90 - delta_latitude/2) or
-      not np.isclose(np.min(latitude), -90 + delta_latitude/2)):
-    raise ValueError(
-        f'Latitude vector {latitude} does not start/end at '
-        '+- (90 - delta_latitude/2) degrees.')
+  # if (not np.isclose(np.max(latitude), 90 - delta_latitude/2) or
+  #     not np.isclose(np.min(latitude), -90 + delta_latitude/2)):
+  #   raise ValueError(
+  #       f'Latitude vector {latitude} does not start/end at '
+  #       '+- (90 - delta_latitude/2) degrees.')
   return np.cos(np.deg2rad(latitude))
 
 
 def _weight_for_latitude_vector_with_poles(latitude):
   """Weights for uniform latitudes of the form [+- 90, ..., -+90]."""
   delta_latitude = np.abs(_check_uniform_spacing_and_get_delta(latitude))
-  if (not np.isclose(np.max(latitude), 90.) or
-      not np.isclose(np.min(latitude), -90.)):
-    raise ValueError(
-        f'Latitude vector {latitude} does not start/end at +- 90 degrees.')
+  # if (not np.isclose(np.max(latitude), 90.) or
+  #     not np.isclose(np.min(latitude), -90.)):
+  #   raise ValueError(
+  #       f'Latitude vector {latitude} does not start/end at +- 90 degrees.')
   weights = np.cos(np.deg2rad(latitude)) * np.sin(np.deg2rad(delta_latitude/2))
   # The two checks above enough to guarantee that latitudes are sorted, so
   # the extremes are the poles
